@@ -1,0 +1,47 @@
+extends layout
+
+block content
+    if isGet
+        h1= title
+        p Welcome to #{title}
+        form(name="add-estimation", method="post")
+            div.input
+                span.label Origin
+                input(type="text", name="origin")
+            div.input
+                span.label Destination
+                input(type="text", name="destination")
+            div.input
+                span.label Departure Date
+                input(type="text", name="departDate")
+            div.input
+                span.label Return Date
+                input(type="text", name="returnDate")
+            div.input
+                span.label Max no. of Stops
+                input(type="text", name="maxStops")
+            div.actions
+                input(type="submit", value="search")
+    else
+        h1= title
+        p Welcome to #{title}
+        table
+            tr
+                th Airline
+                th Flight No.
+                th Departure Time
+                th Duration
+                th Booking Code
+                th Price
+            each val in queryRes.trips.tripOption
+                each hop, index in val.slice
+                    tr
+                        th=hop.segment[0].flight.carrier
+                        th=hop.segment[0].flight.number
+                        th=hop.segment[0].leg[0].departureTime
+                        th=hop.duration
+                        th=hop.segment[0].bookingCode
+                        if !index 
+                            th=val.saleTotal    
+                    
+                
